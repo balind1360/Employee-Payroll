@@ -15,7 +15,22 @@ public class Employee {
         salary = newSalary;
     }
 
+    public Employee (){
+        name = "";
+        employeeID = "";
+        birthday = "";
+        workExperience = "";
+        hourly = True;
+        salary = 0.0;
+    }
+
     public String toString (){
         return name;
+    }
+
+    public static Employee get_file(String id){
+        Employee e = new Employee();
+
+        return e;
     }
 }
