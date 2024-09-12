@@ -6,7 +6,7 @@ public class Employee {
     boolean hourly;
     double salary;
 
-    public employee (String newName, String newEmployeeID, String newBirthday, String newWorkExperience, boolean newHourly, double newSalary){
+    public Employee (String newName, String newEmployeeID, String newBirthday, String newWorkExperience, boolean newHourly, double newSalary){
         name = newName;
         employeeID = newEmployeeID;
         birthday = newBirthday;
@@ -15,7 +15,7 @@ public class Employee {
         salary = newSalary;
     }
 
-    public toString (){
-
+    public String toString (){
+        return name;
     }
 }
