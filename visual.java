@@ -16,3 +16,15 @@ visual/GUI components for the employee-payroll
 import java.io.*; 
 import javax.swing.*;
 import java.awt.event.*;
+
+public class MyGUI{ 
+  private static JLabel label; 
+  private static int value;
+
+  public static void main(String args[]){
+    JFrame frame = new JFrame("Employee Manager");
+    frame.setSize(
+  } 
+
+} 
+
