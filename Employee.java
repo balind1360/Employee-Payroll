@@ -28,7 +28,7 @@ public class Employee {
         return name;
     }
 
-    public static Employee get_file(String id){
+    public Employee (String id){
         Employee e = new Employee();
 
         return e;
