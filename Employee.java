@@ -62,8 +62,63 @@ public class Employee {
             fr.close();
             in.close();
         } catch(IOException e){
-            return;
+            System.out.println("Error: could not close file reader");
         }
+    }
+
+
+    // Getter and Setter for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter and Setter for employeeID
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
+    }
+
+    // Getter and Setter for birthday
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    // Getter and Setter for workExperience
+    public String getWorkExperience() {
+        return workExperience;
+    }
+
+    public void setWorkExperience(String workExperience) {
+        this.workExperience = workExperience;
+    }
+
+    // Getter and Setter for hourly
+    public boolean isHourly() {
+        return hourly;
+    }
+
+    public void setHourly(boolean hourly) {
+        this.hourly = hourly;
+    }
+
+    // Getter and Setter for salary
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public String toString (){
