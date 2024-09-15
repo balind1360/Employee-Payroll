@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class Employee {
     String name;
     String employeeID;
@@ -20,7 +23,7 @@ public class Employee {
         employeeID = "";
         birthday = "";
         workExperience = "";
-        hourly = True;
+        hourly = true;
         salary = 0.0;
     }
 
@@ -29,8 +32,36 @@ public class Employee {
     }
 
     public Employee (String id){
-        Employee e = new Employee();
+        FileReader fr = null;
+        Scanner in = null;
+        
+        try {
+            fr = new FileReader("/Users/danabalin/Documents/AT2-Employee-Payroll/" + id + ".txt");
+            in = new Scanner (fr);
+        } catch (IOException e){
+            return;
+        }
 
-        return e;
+        String line = null;
+        Dictionary<String,String> values = new Hashtable<String,String>();
+        while(in.hasNext()){
+            line = in.nextLine();
+            String[] words = line.split(": ");
+            values.put(words[0], words[1]);
+        }
+
+        name = values.get("name");
+        employeeID = values.get("id");
+        birthday = values.get("birthday");
+        workExperience = values.get("work_experience");
+        hourly = Boolean.valueOf(values.get("hourly"));
+        salary = Double.valueOf(values.get("salary"));
+    
+        try{
+            fr.close();
+            in.close();
+        } catch(IOException e){
+            return;
+        }
     }
 }
