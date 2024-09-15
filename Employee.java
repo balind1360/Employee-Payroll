@@ -9,6 +9,20 @@ public class Employee {
     boolean hourly;
     double salary;
 
+    public static ArrayList<String> allEmployees(String path){
+        File emp_fold = new File(path);  
+        File[] emp_files = emp_fold.listFiles();
+        ArrayList<String> list = new ArrayList<String>();
+
+        for (File file : emp_files) {
+            if (file.isFile() && file.getName().contains(".txt")) {
+                list.add(file.getName().replace(".txt", ""));
+            }
+        }
+
+        return list;
+    }
+
     public Employee (String newName, String newEmployeeID, String newBirthday, String newWorkExperience, boolean newHourly, double newSalary){
         name = newName;
         employeeID = newEmployeeID;
@@ -16,19 +30,6 @@ public class Employee {
         workExperience = newWorkExperience;
         hourly = newHourly;
         salary = newSalary;
-    }
-
-    public Employee (){
-        name = "";
-        employeeID = "";
-        birthday = "";
-        workExperience = "";
-        hourly = true;
-        salary = 0.0;
-    }
-
-    public String toString (){
-        return name;
     }
 
     public Employee (String id){
@@ -63,5 +64,9 @@ public class Employee {
         } catch(IOException e){
             return;
         }
+    }
+
+    public String toString (){
+        return name;
     }
 }
