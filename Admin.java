@@ -16,4 +16,13 @@ public class Admin{
 
         return list;
     }
+
+    public void save(){
+        ArrayList<String> emps = allEmployees("/Users/danabalin/Documents/AT2-Employee-Payroll/");
+        Employee emp;
+        for (String e: emps){
+            emp = new Employee(e);
+            emp.save();
+        }
+    }
 }
