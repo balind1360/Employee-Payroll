@@ -16,6 +16,7 @@ public class Employee {
         workExperience = newWorkExperience;
         hourly = newHourly;
         salary = newSalary;
+        this.createFile();
     }
 
     public Employee (String id){
