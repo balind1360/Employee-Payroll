@@ -38,7 +38,7 @@ public class Employee {
         }
 
         name = values.get("name");
-        employeeID = values.get("id");
+        employeeID = id;
         birthday = values.get("birthday");
         workExperience = values.get("work_experience");
         hourly = Boolean.valueOf(values.get("hourly"));
@@ -109,5 +109,31 @@ public class Employee {
 
     public String toString (){
         return name;
+    }
+
+    public void createFile(){
+        FileWriter fw = null;
+        PrintWriter out = null;
+
+        try{
+            fw = new FileWriter("/Users/danabalin/Documents/AT2-Employee-Payroll/" + employeeID + ".txt");
+            out = new PrintWriter(fw);
+        } catch(IOException e){
+            System.out.println("Error opening output file: " + e);
+            System.exit(1);
+        }
+
+        out.println("name: " + name);
+        out.println("birthday: " + birthday);
+        out.println("work_experience: " + workExperience);
+        out.println("hourly: " + hourly);
+        out.println("salary: " + salary);
+
+        try{
+            fw.close();
+            out.close();
+        } catch(IOException e){
+            System.out.println("Error closing files " + e);
+        }
     }
 }
