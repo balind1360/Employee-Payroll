@@ -16,7 +16,7 @@ public class Employee {
         workExperience = newWorkExperience;
         hourly = newHourly;
         salary = newSalary;
-        this.createFile();
+        this.save();
     }
 
     public Employee (String id){
@@ -112,7 +112,7 @@ public class Employee {
         return name;
     }
 
-    public void createFile(){
+    public void save(){
         FileWriter fw = null;
         PrintWriter out = null;
 
