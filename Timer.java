@@ -15,21 +15,20 @@ public class Timer{
 	}
 	//sets the clock to the current time
 	public void setClock (){
-		start = System.currentTimeMillis();
+		start = System.currentTimeMillis() / (1000 * 60 * 60);
 	}
 	//starts timer
 	public void startClock (){
 		running = true;
-		start = System.currentTimeMillis();
+		start = System.currentTimeMillis() / (1000 * 60 * 60);
 	}
 	//stops timer
 	public void stopClock (){
 		running = false;
-		end = System.currentTimeMillis();
+		end = System.currentTimeMillis() / (1000 * 60 * 60);
 	}
 	//finds difference between end and start time
 	public long timeElapsed (){
 		return end - start;
 	}
-
 }
