@@ -69,6 +69,24 @@ public class Employee {
         clockedIn = newClockedIn;
     }
 
+    public boolean clockIn (){
+        if (!clockedIn){
+            Timer t = new Timer ();
+            double time = 0.0;
+            t.startClock();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean clockOut (){
+        if (clockedIn){
+            t.stopClock ();
+            time = t.timeElapsed();
+        }
+        return false;
+    }
+
 
     public double calculatePay (){
         
