@@ -1,16 +1,9 @@
 /* 
 Julia Heintz 
 date created: 9.12.2024
-last edited: 9.15.2024 
+last edited: 9.17.2024 
 
-visual/GUI components for the employee-payroll 
-- sign in screen 
-- employee view 
-  - see hours worked per date in the pay period 
-  - calculate hours worked in that pay period 
-- admin view 
-  - shut down button (x in left corner) -> are you sure? screen 
-  - view employee -> edit employee 
+
 */ 
 
 import java.io.*; 
@@ -26,54 +19,76 @@ import java.awt.Component;
 
 
 public class EMgui{ 
-	//label for text
-	private static JLabel label; 
+	//create private variables that can be accesses in listener class
+	private static JTextField textWindow;
+	private static String id = "";
+	
 
 	public static void main(String args[]){
-
-		
 
 		//declare & set size of initial frame
 		JFrame iFrame = new JFrame("Employee Manager");
 		iFrame.setSize(500,300);
-		//set close
-		iFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		//create parent panel
+		//create panel of components
 		JPanel comp = new JPanel();
 		//set layout for panel (box layout for Y axis)
 		comp.setPreferredSize(new Dimension(500,300));
+		//create boxlayout for JPanel comp 
+			// allows components to be aligned in the center & stacked along Y axis (Page axis)
 		BoxLayout boxlayout = new BoxLayout(comp, BoxLayout.PAGE_AXIS);
 		comp.setLayout(boxlayout);
 
 
-
-	
-
 		//initialize label
-		label = new JLabel("Enter Employee ID: ");
+		JLabel label = new JLabel("Enter Employee ID: ");
 		label.setSize(200,200);
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		comp.add(label);
 
-		
-		
 		//added a text window for employees to type in their ID
-		JTextField textWindow = new JTextField();
+		textWindow = new JTextField();
 		textWindow.setHorizontalAlignment(JTextField.CENTER);
 		textWindow.setBackground(Color.PINK);
 		textWindow.setMaximumSize(new Dimension(250,40));
+		//allow it to be editable in order to type id 
 		textWindow.setEditable(true);
 		comp.add(textWindow);
 
-		
+		//create an enter button & add to panel
+		JButton ent = new JButton("enter"); 
+		ent.setSize(200,200);
+		ent.setAlignmentX(Component.CENTER_ALIGNMENT);
+		comp.add(ent);
 
-	
+		//action listener
+		ent.setActionCommand("Clicked");
+		ent.addActionListener(new ButtonClickedListener());
+		
+		//close frame
+		iFrame.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+				//PROGRAM TO SAVE
+			}
+		});
+
 		//add panel to the frame
 		iFrame.add(comp);
 		iFrame.pack();
-
-		// set visible in order for frame to appear 
+		//set visible in order for frame to appear 
 		iFrame.setVisible(true);
+	}
+
+// create buttonClicked event listener 
+	public static class ButtonClickedListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			String command = e.getActionCommand();
+			if(command.equals("Clicked")){
+				//id stores the 
+				id = textWindow.getText();
+				System.out.println(id);
+			}
+		}
 	}
 }
