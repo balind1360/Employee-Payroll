@@ -69,7 +69,6 @@ public class EMgui{
 		iFrame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent windowEvent){
 				System.exit(0);
-				//PROGRAM TO SAVE
 			}
 		});
 
