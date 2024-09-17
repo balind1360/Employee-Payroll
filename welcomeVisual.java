@@ -3,7 +3,7 @@ Julia Heintz
 date created: 9.12.2024
 last edited: 9.17.2024 
 
-
+description: GUI welcome window for employee manager 
 */ 
 
 import java.io.*; 
