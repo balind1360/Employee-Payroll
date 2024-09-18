@@ -1,5 +1,16 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
+
+/**
+ * Name: Employee                               Last Updated: 11/18/24
+ * 
+ * Creator: D. Balin, E. Blocke, J. Heintz
+ * 
+ * Purpose: Class to make Employee objects that have all of the necessary information of the employee 
+ *  and have the ability to calculate payroll, check in and out, etc
+ */
+
 
 public class Employee {
     String name;
@@ -8,7 +19,14 @@ public class Employee {
     String workExperience;
     boolean hourly;
     double salary;
+    boolean clockedIn;
+    double hoursWorked;
+    ArrayList <String> hoursAndDays;
+    LocalDate day;
+    Double time;
+    Timer t;
 
+    // constructor that takes in Employee's name (String newName), id (String newEmployeeID), birthday (newBirthday), work experience (String newWorkExperience), hourly wage (boolean newHourly), and salary (newSalary)
     public Employee (String newName, String newEmployeeID, String newBirthday, String newWorkExperience, boolean newHourly, double newSalary){
         name = newName;
         employeeID = newEmployeeID;
@@ -16,9 +34,15 @@ public class Employee {
         workExperience = newWorkExperience;
         hourly = newHourly;
         salary = newSalary;
+        hoursWorked = 0.0; //start hours at 0
+        hoursAndDays = new ArrayList <String> (); //add to this list to log the days and hours worked
+        clockedIn = false;
+        time = 0.0;
+        day = null;
         this.save();
     }
 
+    // uses the (assumed to already be created) text file by the name of (String id).txt to get an Employee object with all the saved information
     public Employee (String id){
         FileReader fr = null;
         Scanner in = null;
@@ -44,6 +68,8 @@ public class Employee {
         workExperience = values.get("work_experience");
         hourly = Boolean.valueOf(values.get("hourly"));
         salary = Double.valueOf(values.get("salary"));
+        hoursWorked = Double.valueOf(values.get("hours_worked"));
+        hoursAndDays = ArrayListParser.parseArrayListString(values.get("hours_and_days"));
     
         try{
             fr.close();
@@ -108,10 +134,12 @@ public class Employee {
         this.salary = salary;
     }
 
+    // A toString returning the employee's name
     public String toString (){
         return name;
     }
 
+    // saves all of the Employee information into a txt file by the name of the the employee's ID
     public void save(){
         FileWriter fw = null;
         PrintWriter out = null;
@@ -129,6 +157,8 @@ public class Employee {
         out.println("work_experience: " + workExperience);
         out.println("hourly: " + hourly);
         out.println("salary: " + salary);
+        out.println("hours_worked: " + hoursWorked);
+        out.println("hours_and_days: " + hoursAndDays);
 
         try{
             fw.close();
@@ -137,4 +167,65 @@ public class Employee {
             System.out.println("Error closing files " + e);
         }
     }
+
+    //getter clocked in
+    public boolean getClockedIn (){
+        return clockedIn;
+    }
+    //setter clocked in
+    public void setClockedIn (boolean newClockedIn){
+        clockedIn = newClockedIn;
+    }
+    //getter list of hours and days
+    public ArrayList <String> getHoursAndDays (){
+        return hoursAndDays;
+    }
+
+    //clocks in emplyee
+    public boolean clockIn (){
+        if (!clockedIn){
+            t = new Timer ();
+            time = 0.0;
+            t.startClock();
+            day = LocalDate.now (); //gets current date for payroll
+            return true;
+        }
+        return false;
+    }
+
+    //clocks out employee and calculates hours worked
+    public boolean clockOut (){
+        if (clockedIn){
+            t.stopClock ();
+            time += t.timeElapsed();
+            hoursWorked += time;
+            hoursAndDays.add(day + " " + time); //adds date and hours worked for the payroll
+            return true;
+        }
+        return false;
+    }
+
+    //puts hours and days worked back to zero
+    public void resetPayPeriod (){
+        hoursWorked = 0.0;
+        hoursAndDays.clear ();
+    }
+
+    //calculates the pay for the employee (not including overtime or deductions)
+    public double calculatePay (){
+        double pay = 0.0;
+        
+        //pay without overtime for hourly workers
+        if (hourly){
+            pay = hoursWorked * salary;
+        }
+        //pay for salary employees
+        if (!hourly){
+            pay = hoursAndDays.size() * salary;
+        }
+        return pay;
+    }
+
+
 }
+
