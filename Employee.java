@@ -233,6 +233,7 @@ public class Employee {
         return pay;
     }
 
+    // returns true if they worked over nine days in a row
     public boolean checkNine(){
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -268,6 +269,7 @@ public class Employee {
         return false;
     }
 
+    // returns true if they worked over forty hours in any seven day period
     public boolean checkForty(){
         // Formatter for parsing LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
