@@ -22,13 +22,22 @@ public class EMgui{
 	//create private variables that can be accesses in listener class
 	private static JTextField textWindow;
 	private static String id = "";
+	private static JFrame iFrame;
+	private static JFrame aFrame;
+	private static JFrame eFrame;
 	
 
 	public static void main(String args[]){
 
 		//declare & set size of initial frame
-		JFrame iFrame = new JFrame("Employee Manager");
+		iFrame = new JFrame("Employee Manager");
 		iFrame.setSize(500,300);
+
+		aFrame = new JFrame("Employee Manager: Admin");
+		aFrame.setSize(700,700);
+
+		eFrame = new JFrame("Employee Manager: Employee");
+		eFrame.setSize(700,700);
 
 		//create panel of components
 		JPanel comp = new JPanel();
@@ -64,11 +73,32 @@ public class EMgui{
 		//action listener
 		ent.setActionCommand("Clicked");
 		ent.addActionListener(new ButtonClickedListener());
+
 		
-		//close frame
+
+
+		
+//close frames with a window listener
 		iFrame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent windowEvent){
 				System.exit(0);
+				//PROGRAM TO SAVE
+			}
+		});
+
+		//close admin frame
+		aFrame.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+				//PROGRAM TO SAVE
+			}
+		});
+
+		//close employee frame
+		eFrame.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+				//PROGRAM TO SAVE
 			}
 		});
 
@@ -77,6 +107,32 @@ public class EMgui{
 		iFrame.pack();
 		//set visible in order for frame to appear 
 		iFrame.setVisible(true);
+
+
+		//admin frames 
+		if (aFrame.setVisible(false)){
+			//create panel of components
+			JPanel panel = new JPanel();
+			//set layout for panel (box layout for Y axis)
+			panel.setPreferredSize(new Dimension(700,700));
+			//create boxlayout for JPanel panel 
+				// allows components to be aligned in the center & stacked along Y axis (Page axis)
+			BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
+			panel.setLayout(boxlayout);
+
+	//create action buttons & add them to the panel
+			JButton calc = new JButton("calculate payroll");
+			calc.setAlignmentX(Component.CENTER_ALIGNMENT);
+			JButton view = new JButton("view employee");
+			view.setAlignmentX(Component.CENTER_ALIGNMENT);
+			JButton add = new JButton("add employee");
+			add.setAlignmentX(Component.CENTER_ALIGNMENT);
+			panel.add(calc);
+			panel.add(view);
+			panel.add(add);
+
+		}
+
 	}
 
 // create buttonClicked event listener 
@@ -86,7 +142,17 @@ public class EMgui{
 			if(command.equals("Clicked")){
 				//id stores the 
 				id = textWindow.getText();
-				System.out.println(id);
+				if(id.equals("000100")){	// check for special admin code
+					//open new admin view frame
+					aFrame.setVisible(true);
+					//close initial welcome frame
+					iFrame.setVisible(false);
+				} else{
+					//open new employee view frame
+					eFrame.setVisible(true);
+					//close initial welcome frame
+					iFrame.setVisible(false);
+				}
 			}
 		}
 	}
