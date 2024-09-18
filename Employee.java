@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -223,9 +224,47 @@ public class Employee {
         if (!hourly){
             pay = hoursAndDays.size() * salary;
         }
+        if(checkNine()){
+            pay = pay*1.5;
+        }
+
         return pay;
     }
 
+    public boolean checkNine(){
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        // Store the LocalDates only
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        
+        for (String dateTime : hoursAndDays) {
+            String datePart = dateTime.split(" ")[0]; // Get the LocalDate part before the space (ignoring hours)
+            LocalDate date = LocalDate.parse(datePart, formatter);
+            dates.add(date);
+        }
+        
+        // Sort the dates in chronological order
+        Collections.sort(dates);
+        
+        // Check for nine consecutive days
+        int streak = 1;
+        for (int i = 1; i < dates.size(); i++) {
+            
+            if (dates.get(i).equals(dates.get(i - 1).plusDays(1))) {
+                streak++;
+            } else {
+                streak = 1;
+            }
+
+            if (streak == 9) {
+                return true;
+            }
+        }
+        
+        // If no streak of 9 days is found, return false
+        return false;
+    }
 
 }
 
