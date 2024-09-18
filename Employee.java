@@ -1,5 +1,17 @@
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+/**
+ * Name: Employee                               Last Updated: 11/18/24
+ * 
+ * Creator: D. Balin, E. Blocke, J. Heintz
+ * 
+ * Purpose: Class to make Employee objects that have all of the necessary information of the employee 
+ *  and have the ability to calculate payroll, check in and out, etc
+ */
+
 
 public class Employee {
     String name;
@@ -8,7 +20,14 @@ public class Employee {
     String workExperience;
     boolean hourly;
     double salary;
+    boolean clockedIn;
+    double hoursWorked;
+    ArrayList <String> hoursAndDays;
+    LocalDate day;
+    Double time;
+    Timer t;
 
+    // constructor that takes in Employee's name (String newName), id (String newEmployeeID), birthday (newBirthday), work experience (String newWorkExperience), hourly wage (boolean newHourly), and salary (newSalary)
     public Employee (String newName, String newEmployeeID, String newBirthday, String newWorkExperience, boolean newHourly, double newSalary){
         name = newName;
         employeeID = newEmployeeID;
@@ -16,9 +35,15 @@ public class Employee {
         workExperience = newWorkExperience;
         hourly = newHourly;
         salary = newSalary;
+        hoursWorked = 0.0; //start hours at 0
+        hoursAndDays = new ArrayList <String> (); //add to this list to log the days and hours worked
+        clockedIn = false;
+        time = 0.0;
+        day = null;
         this.save();
     }
 
+    // uses the (assumed to already be created) text file by the name of (String id).txt to get an Employee object with all the saved information
     public Employee (String id){
         FileReader fr = null;
         Scanner in = null;
@@ -44,6 +69,8 @@ public class Employee {
         workExperience = values.get("work_experience");
         hourly = Boolean.valueOf(values.get("hourly"));
         salary = Double.valueOf(values.get("salary"));
+        hoursWorked = Double.valueOf(values.get("hours_worked"));
+        hoursAndDays = ArrayListParser.parseArrayListString(values.get("hours_and_days"));
     
         try{
             fr.close();
@@ -108,10 +135,12 @@ public class Employee {
         this.salary = salary;
     }
 
+    // A toString returning the employee's name
     public String toString (){
         return name;
     }
 
+    // saves all of the Employee information into a txt file by the name of the the employee's ID
     public void save(){
         FileWriter fw = null;
         PrintWriter out = null;
@@ -129,6 +158,8 @@ public class Employee {
         out.println("work_experience: " + workExperience);
         out.println("hourly: " + hourly);
         out.println("salary: " + salary);
+        out.println("hours_worked: " + hoursWorked);
+        out.println("hours_and_days: " + hoursAndDays);
 
         try{
             fw.close();
@@ -138,7 +169,7 @@ public class Employee {
         }
     }
 
-        //getter clocked in
+    //getter clocked in
     public boolean getClockedIn (){
         return clockedIn;
     }
@@ -174,7 +205,8 @@ public class Employee {
         }
         return false;
     }
-    //puts ours and days worked back to zero
+
+    //puts hours and days worked back to zero
     public void resetPayPeriod (){
         hoursWorked = 0.0;
         hoursAndDays.clear ();
@@ -192,7 +224,54 @@ public class Employee {
         if (!hourly){
             pay = hoursAndDays.size() * salary;
         }
+        
         return pay;
     }
+
+    // returns an ArrayList<LocalDate> representing every day that will experience a 1.5 times increase in pay for working past 9 days in a row
+    public ArrayList<LocalDate> checkNine(ArrayList<LocalDate> holidays){
+        
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+
+        
+        for (String dateTime : hoursAndDays) {
+            String datePart = dateTime.split(" ")[0];
+            LocalDate date = LocalDate.parse(datePart);
+            dates.add(date);
+        }
+        
+        int count = 0;
+        LocalDate curr;
+        boolean restart;
+
+        ArrayList<LocalDate> bonusDays = new ArrayList<LocalDate>();
+
+        // starts at first entry
+        curr = dates.get(0);
+        restart = false;
+        count = 1;
+
+        while(!restart){
+            if(count >= 9){
+                bonusDays.add(curr);
+            }
+
+            if(!dates.contains(curr.plusDays(1)) && !holidays.contains(curr.plusDays(1))){
+                restart = false;
+                count = 1;
+            }else{
+                curr = curr.plusDays(1);
+                count = count + 1;
+            }
+            
+        }
+
+        return bonusDays;
+        
+    }
+
+    
+    
+
 }
-}
+
