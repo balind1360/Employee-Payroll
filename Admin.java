@@ -50,7 +50,7 @@ public class Admin{
     }
 
     // saves all employees by parsing through the current files
-    public void saveAll(){
+    public void clockOut(){
         ArrayList<String> emps = allEmployees("/Users/danabalin/Documents/AT2-Employee-Payroll/");
         Employee emp;
         for (String e: emps){
