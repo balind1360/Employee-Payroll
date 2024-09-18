@@ -233,7 +233,6 @@ public class Employee {
         return pay;
     }
 
-    // returns true if they worked over nine days in a row
     public boolean checkNine(){
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -269,7 +268,6 @@ public class Employee {
         return false;
     }
 
-    // returns true if they worked over forty hours in any seven day period
     public boolean checkForty(){
         // Formatter for parsing LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -288,6 +286,8 @@ public class Employee {
         // Sort the workEntries by date
         Collections.sort(workEntries, Comparator.comparing(WorkEntry::getDate));
         
+        long fullHours = 0;
+        
         for (int i = 0; i < workEntries.size(); i++) {
             long totalHours = 0;
             LocalDate startDate = workEntries.get(i).getDate();
@@ -300,9 +300,10 @@ public class Employee {
                     totalHours += workEntries.get(j).getHoursWorked();
                     
                     if (totalHours > 40) {
-                        return true;
+                        return true;// replace with multiply newest hours by 1.5
                     }
                 } else {
+                    fullHours = fullHours + totalHours;
                     break;
                 }
             }
