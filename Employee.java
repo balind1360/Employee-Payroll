@@ -137,4 +137,62 @@ public class Employee {
             System.out.println("Error closing files " + e);
         }
     }
+
+        //getter clocked in
+    public boolean getClockedIn (){
+        return clockedIn;
+    }
+    //setter clocked in
+    public void setClockedIn (boolean newClockedIn){
+        clockedIn = newClockedIn;
+    }
+    //getter list of hours and days
+    public ArrayList <String> getHoursAndDays (){
+        return hoursAndDays;
+    }
+
+    //clocks in emplyee
+    public boolean clockIn (){
+        if (!clockedIn){
+            t = new Timer ();
+            time = 0.0;
+            t.startClock();
+            day = LocalDate.now (); //gets current date for payroll
+            return true;
+        }
+        return false;
+    }
+
+    //clocks out employee and calculates hours worked
+    public boolean clockOut (){
+        if (clockedIn){
+            t.stopClock ();
+            time += t.timeElapsed();
+            hoursWorked += time;
+            hoursAndDays.add(day + " " + time); //adds date and hours worked for the payroll
+            return true;
+        }
+        return false;
+    }
+    //puts ours and days worked back to zero
+    public void resetPayPeriod (){
+        hoursWorked = 0.0;
+        hoursAndDays.clear ();
+    }
+
+    //calculates the pay for the employee (not including overtime or deductions)
+    public double calculatePay (){
+        double pay = 0.0;
+        
+        //pay without overtime for hourly workers
+        if (hourly){
+            pay = hoursWorked * salary;
+        }
+        //pay for salary employees
+        if (!hourly){
+            pay = hoursAndDays.size() * salary;
+        }
+        return pay;
+    }
+}
 }
