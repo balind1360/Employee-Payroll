@@ -227,7 +227,9 @@ public class Employee {
         if(checkNine()){
             pay = pay*1.5;
         }
-
+        if(checkForty()){
+            pay = pay*1.5;
+        }
         return pay;
     }
 
@@ -263,6 +265,47 @@ public class Employee {
         }
         
         // If no streak of 9 days is found, return false
+        return false;
+    }
+
+    public boolean checkForty(){
+        // Formatter for parsing LocalDate
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        // Store LocalDate and hours worked
+        ArrayList<WorkEntry> workEntries = new ArrayList<>();
+        
+        for (String dateTime : hoursAndDays) {
+            String[] parts = dateTime.split(" ");
+            LocalDate date = LocalDate.parse(parts[0], formatter);
+            long hoursWorked = Long.parseLong(parts[1]);
+            
+            workEntries.add(new WorkEntry(date, hoursWorked));
+        }
+        
+        // Sort the workEntries by date
+        Collections.sort(workEntries, Comparator.comparing(WorkEntry::getDate));
+        
+        for (int i = 0; i < workEntries.size(); i++) {
+            long totalHours = 0;
+            LocalDate startDate = workEntries.get(i).getDate();
+            
+            for (int j = i; j < workEntries.size(); j++) {
+                LocalDate currentDate = workEntries.get(j).getDate();
+                
+                // If the current date is within seven days of the start date, add hours worked
+                if (!currentDate.isAfter(startDate.plusDays(6))) {
+                    totalHours += workEntries.get(j).getHoursWorked();
+                    
+                    if (totalHours > 40) {
+                        return true;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
         return false;
     }
 
