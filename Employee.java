@@ -79,7 +79,12 @@ public class Employee {
             System.out.println("Error: could not close file reader");
         }
     }
+    //finds all the possible start and end dates for a 7 day period
+    public ArrayList<startsAndEnds> startAndEnds (){
+        
+    }
 
+    //public 
 
     // Getter and Setter for name
     public String getName() {
@@ -210,6 +215,7 @@ public class Employee {
     public void resetPayPeriod (){
         hoursWorked = 0.0;
         hoursAndDays.clear ();
+        startsAndEnds ();
     }
 
     //calculates the pay for the employee (not including overtime or deductions)
