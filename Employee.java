@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * Name: Employee                               Last Updated: 11/18/24
  * 
- * Creator: D. Balin, E. Blocke, J. Heintz
+ * Creator: D. Balin, E. Block, J. Heintz
  * 
  * Purpose: Class to make Employee objects that have all of the necessary information of the employee 
  *  and have the ability to calculate payroll, check in and out, etc
