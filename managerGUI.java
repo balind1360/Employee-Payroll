@@ -21,7 +21,7 @@ import javax.swing.Box;
 import java.awt.Component;
 
 
-public class EmpM{ 
+public class managerGUI{ 
 	//create private variables that can be accesses in listener class
 	private static JTextField textWindow;
 	private static String id = "";
