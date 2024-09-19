@@ -84,7 +84,38 @@ public class Employee {
         
     }
 
-    //public 
+    //finds all the start and end dates of the 7 day periods
+    public ArrayList<String> startsAndEnds (LocalDate startDate, ArrayList <LocalDate> holidays){
+        //arraylist stores the start/end of periods
+        ArrayList <String> startsAndEnds = new ArrayList <String> ();
+        LocalDate end = LocalDate.now ();
+        int val = 0; //tracks the number of days passed
+        LocalDate start = startDate;
+        LocalDate current = startDate;
+        //goes through until you reach current day
+        while (!current.equals (end)){
+            //goes through until reaching 7 days or current day
+            while (val < 7 && !current.equals (end)){
+                System.out.println (current);
+                if (!holidays.contains (current)){
+                    val++;
+                }
+                System.out.println ("value: " + val);
+                current = current.plusDays (1);
+            }
+            //once it reaches a seve day period, that period is added to the arraylist
+            if (val >= 7){
+                startsAndEnds.add (start + " " + current.minusDays(1)); //adds values to the arraylist
+            }
+            //goes until the next non-holiday and sets new start date
+            while (holidays.contains(current)){
+                current = current.plusDays(1);
+            }
+            start = current;
+            val = 0;
+        }
+        return startsAndEnds;
+    }
 
     // Getter and Setter for name
     public String getName() {
