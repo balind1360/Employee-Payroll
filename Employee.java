@@ -36,6 +36,10 @@ public class Employee {
     public void setName (String newName){
         name = newName;
     }
+    //getter for name 
+    public String getName(){
+    	return name;
+    }
     //getter for employee ID
     public String getEmployeeID (){
         return employeeID;
