@@ -14,6 +14,10 @@ public class ArrayListParser {
     
     // returns an ArrayList<String> from a string in the format of an ArrayList toString
     public static ArrayList<String> parseArrayListString(String str) {
+        if(str.equals("[]")){
+            return new ArrayList<String>();
+        }
+        
         // Remove the square brackets
         str = str.substring(1, str.length() - 1);
         
@@ -21,7 +25,7 @@ public class ArrayListParser {
         String[] elements = str.split(", ");
         
         // Convert the array to an ArrayList
-        return new ArrayList<>(Arrays.asList(elements));
+        return new ArrayList<String>(Arrays.asList(elements));
     }
 
 }
